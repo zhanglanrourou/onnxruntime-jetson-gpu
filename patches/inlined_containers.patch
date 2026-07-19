@@ -1,0 +1,19 @@
+--- a/include/onnxruntime/core/common/inlined_containers.h
++++ b/include/onnxruntime/core/common/inlined_containers.h
+@@ -112,6 +112,22 @@
++#else  // DISABLE_ABSEIL - Jetson ARM64 GCC12 fix
++// Transparent hash for heterogeneous lookup (replaces absl::Hash)
++struct InlinedHash {
++  using is_transparent = void;
++  template <typename T>
++  size_t operator()(const T& v) const {
++    if constexpr (std::is_array_v<T>) {
++      return std::hash<std::string_view>{}(std::string_view(v, sizeof(T)-1));
++    }
++    return std::hash<std::decay_t<T>>{}(v);
++  }
++  size_t operator()(std::string_view v) const { ... }
++  size_t operator()(const char* v) const { ... }
++};
++// InlinedHashSet/HashMap/NodeHashSet/NodeHashMap use InlinedHash+std::equal_to<>
++// All find() overloads replaced with "using Base::find"

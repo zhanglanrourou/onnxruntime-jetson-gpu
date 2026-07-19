@@ -1,0 +1,10 @@
+--- a/onnxruntime/core/providers/tensorrt/tensorrt_execution_provider.cc
++++ b/onnxruntime/core/providers/tensorrt/tensorrt_execution_provider.cc
+@@ -49 +49 @@
+-bool FindCycleHelper(size_t i, ..., gsl::span<bool> visited, gsl::span<bool> st, ...)
++bool FindCycleHelper(size_t i, ..., gsl::span<char> visited, gsl::span<char> st, ...)
+@@ -2542,2543 +2542,2543
+-    InlinedVector<bool> visited(graph_size);
+-    InlinedVector<bool> st(graph_size);
++    InlinedVector<char> visited(graph_size);
++    InlinedVector<char> st(graph_size);
