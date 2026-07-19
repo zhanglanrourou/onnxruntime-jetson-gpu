@@ -3,3 +3,4 @@
 *.whl
 *.log
 build/
+*.tar.gz
